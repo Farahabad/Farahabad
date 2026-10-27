@@ -69,7 +69,8 @@ function jalaliPicker(input, onChange, getMin){
     let cells = "", d = new Date(first), last = first;
     while (cmpYM(jParts(d), view) === 0){
       const iso = toISO(d);
-      const dis = iso < todayISO || iso < minISO ? "disabled" : "";
+      const blocked = JSON.parse(input.dataset.blocked || "[]");
+      const dis = iso < todayISO || iso < minISO || blocked.includes(iso) ? "disabled" : "";
       const cls = ["day", input.dataset.iso === iso ? "sel" : "", iso === todayISO ? "today" : "", d.getDay() === 5 ? "fri" : ""].join(" ");
       cells += `<button type="button" class="${cls}" data-iso="${iso}" ${dis}><b>${fa(jParts(d).d)}</b><small>${d.getDate()}</small></button>`;
       last = d; d = addDays(d, 1);

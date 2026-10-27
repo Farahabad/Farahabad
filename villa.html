@@ -44,6 +44,9 @@ else {
       <p class="note">پرداخت آنلاین وجود ندارد. درخواست شما برای میزبان ارسال می‌شود و پس از تأیید، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
     </aside>
   </div>`;
+  const blockedJSON = JSON.stringify(v.blocked || []);
+  document.getElementById("in").dataset.blocked = blockedJSON;
+  document.getElementById("out").dataset.blocked = blockedJSON;
   jalaliPicker(document.getElementById("in"), calc);
   jalaliPicker(document.getElementById("out"), calc, () => {
     const i = document.getElementById("in").dataset.iso;
