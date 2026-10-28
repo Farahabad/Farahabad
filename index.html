@@ -56,6 +56,7 @@ function render(){
       <div class="thumb" style="background:${v.color}">${v.img?`<img src="${v.img}" alt="${v.title}">`:v.emoji}</div>
       <div class="info"><h3>${v.title}</h3>
         <div class="muted">${v.city} · ${v.rooms===1?"تک":fmt(v.rooms)} خواب · تا ${fmt(v.capacity)} نفر</div>
+        ${v.priceText?`<div class="muted"><b>${v.priceText}</b></div>`:""}
         <div class="muted">⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</div>
 </div>
     </a>`).join("")||"<p>موردی یافت نشد.</p>";
