@@ -29,6 +29,7 @@ else {
         <p class="spec">${v.rooms===1?"تک":fmt(v.rooms)} خواب · ظرفیت ${fmt(v.capacity)} نفر</p></div>
       ${v.gallery?`<div class="box"><h3>تصاویر</h3><div class="gal">${v.gallery.map(g=>`<img src="${g}" alt="" data-full="${g}">`).join("")}</div></div>`:""}
       <div class="box"><h3>امکانات</h3>${v.amenities.map(a=>`<span class="tag">${a}</span>`).join("")}</div>
+      ${v.lat&&v.lng?`<div class="box"><h3>موقعیت روی نقشه</h3><button type="button" id="mapbtn">📍 نمایش روی نقشه</button></div>`:v.mapUrl?`<div class="box"><h3>موقعیت روی نقشه</h3><a class="sm" target="_blank" rel="noopener" href="${v.mapUrl}">📍 نمایش روی نقشه</a></div>`:""}
       <div class="box"><h3>قوانین</h3><p class="muted">ساعت ورود ۱۴ و خروج ۱۲</p></div>
     </div>
     <aside class="box booking">
@@ -44,6 +45,19 @@ else {
       <p class="note">پرداخت آنلاین وجود ندارد. درخواست شما برای میزبان ارسال می‌شود و پس از تأیید، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
     </aside>
   </div>`;
+  if(v.lat&&v.lng){
+    document.getElementById("mapbtn").onclick=()=>{
+      const d=0.004,bb=[v.lng-d,v.lat-d,v.lng+d,v.lat+d].join("%2C");
+      const m=document.createElement("div");
+      m.style.cssText="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:99;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px;gap:10px";
+      m.innerHTML=`<iframe src="https://www.openstreetmap.org/export/embed.html?bbox=${bb}&layer=mapnik&marker=${v.lat}%2C${v.lng}" style="width:100%;max-width:700px;height:70vh;border:0;border-radius:10px;background:#fff"></iframe>
+      <a class="sm" target="_blank" rel="noopener" href="${v.mapUrl||`https://www.google.com/maps?q=${v.lat},${v.lng}`}">باز کردن در برنامه نقشه</a>
+      <button type="button">بستن</button>`;
+      m.querySelector("button").onclick=()=>m.remove();
+      m.onclick=e=>{if(e.target===m)m.remove()};
+      document.body.appendChild(m);
+    };
+  }
   const blockedJSON = JSON.stringify(v.blocked || []);
   document.getElementById("in").dataset.blocked = blockedJSON;
   document.getElementById("out").dataset.blocked = blockedJSON;
@@ -70,7 +84,13 @@ function send(){
   let h=`<a class="wa" href="https://wa.me/${OWNER.phone}?text=${e}" target="_blank">ارسال به واتساپ</a>`;
   if(OWNER.telegram) h+=`<a class="tg" href="https://t.me/${OWNER.telegram}?text=${e}" target="_blank">ارسال به تلگرام</a>`;
   h+=`<a class="sm" href="sms:+${OWNER.phone}?body=${e}">ارسال پیامک</a>`;
+  h+=`<a class="sm" href="#" id="cp">کپی متن پیام (اگر پیامک باز نشد)</a>`;
   const c=document.getElementById("contact"); c.innerHTML="<p class='muted'>برای تکمیل ثبت، یکی از راه‌ها را بزنید تا درخواست برای میزبان ارسال شود:</p>"+h; c.hidden=false;
+  document.getElementById("cp").onclick=function(ev){ev.preventDefault();
+    const done=()=>{this.textContent="کپی شد ✓ — در برنامه پیامک‌ها paste کنید";};
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(msg).then(done,()=>prompt("متن را کپی کنید:",msg));
+    else prompt("متن را کپی کنید:",msg);
+  };
 }
 </script>
 </body>
