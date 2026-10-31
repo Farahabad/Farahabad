@@ -13,7 +13,7 @@ const VILLAS = [
     desc: "یک باب ویلا استخردار دربست واقع در جاده پلاژ\nاستخر دارای تصفیه آب آنی\n۱۸۰ متر بنا ، حیاط دار ، درب ریموت ، دوبلکس\nفوتبال دستی، بیلیارد ، نزدیک دریا با کلیه امکانات رفاهی"
   },
   {
-    id: 7, title: "سوئیت ساحلی در فرح آباد ۱", city: "فرح‌آباد", type: "ویلا",
+    id: 7, title: "سوئیت ساحلی در فرح آباد ۱", lat: 36.798711, lng: 53.107229, city: "فرح‌آباد", type: "ویلا",
     priceText: "شبی ۱,۲۰۰,۰۰۰ تومان", rooms: 1, capacity: 6, rating: 5, reviews: 0,
     amenities: ["توالت ایرانی"],
     img: "suite-6.webp", gallery: ["suite-6.webp", "suite1.webp", "suite-1.webp", "suite-2.webp", "suite-3.webp", "suite-4.webp", "suite-5.webp"], emoji: "🏖️", color: "#4a6fa5",
