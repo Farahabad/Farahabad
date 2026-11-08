@@ -46,5 +46,12 @@ const VILLAS = [
     amenities: ["استخر", "پارکینگ", "فوتبال دستی", "توالت فرنگی", "توالت ایرانی"],
     img: "fh-WA0022.webp", gallery: ["fh-WA0022.webp", "fh-WA0018.webp", "fh-WA0020.webp", "fh-WA0024.webp", "fh-WA0026.webp", "fh-WA0028.webp", "fh-WA0030.webp", "fh-WA0032.webp", "fh-WA0034.webp", "fh-WA0035.webp", "fh-WA0016.webp", "fh-WA0012.webp", "fh-WA0010.webp", "fh-WA0008.webp", "fh-WA0004.webp", "fh-WA0002.webp", "fh-WA0036.webp", "fh-WA0037.webp", "fh-WA0025.webp", "fh-WA0021.webp"], emoji: "🏊", color: "#2f5d62",
     desc: "یک باب ویلا استخردار دربست واقع در فرح آباد\n۲۵۰ متر زمین، ۲۰۰ متر بنا\nاستخر دارای تصفیه آب آنی\n۳ خواب ، با ویو رودخانه تجن\nمحیط دنج"
+  },
+  {
+    id: 12, title: "ویلای ساحلی استخردار در فرح آباد ۲", city: "فرح‌آباد", type: "ویلا",
+    rooms: 2, rating: 5, reviews: 0,
+    amenities: ["استخر", "پارکینگ", "اسپیکر", "توالت ایرانی", "توالت فرنگی"],
+    img: "fh2-WA0031.webp", gallery: ["fh2-WA0031.webp", "fh2-WA0030.webp", "fh2-WA0029.webp", "fh2-WA0028.webp", "fh2-WA0027.webp", "fh2-WA0025.webp", "fh2-WA0024.webp", "fh2-WA0023.webp", "fh2-WA0022.webp", "fh2-WA0021.webp", "fh2-WA0020.webp", "fh2-WA0019.webp", "fh2-WA0018.webp", "fh2-WA0017.webp", "fh2-WA0016.webp", "fh2-WA0015.webp", "fh2-WA0014.webp", "fh2-WA0013.webp", "fh2-WA0012.webp", "fh2-WA0011.webp"], emoji: "🏊", color: "#2f5d7c",
+    desc: "یک باب ویلای استخردار دربست واقع در فرح آباد\nفوق العاده شیک و نوساز ، ۲۲۰ متر زمین ، ۱۶۰ متر بنا\nنزدیک دریا ، با کلیه امکانات رفاهی\n<small>۲ خواب</small>"
   }
 ];
