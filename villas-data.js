@@ -49,7 +49,7 @@ const VILLAS = [
   },
   {
     id: 12, title: "ویلای ساحلی استخردار در فرح آباد ۲", city: "فرح‌آباد", type: "ویلا",
-    rooms: 2, rating: 5, reviews: 0,
+    rooms: 2, hideSpec: true, rating: 5, reviews: 0,
     amenities: ["استخر", "پارکینگ", "اسپیکر", "توالت ایرانی", "توالت فرنگی"],
     img: "fh2-WA0031.webp", gallery: ["fh2-WA0031.webp", "fh2-WA0030.webp", "fh2-WA0029.webp", "fh2-WA0028.webp", "fh2-WA0027.webp", "fh2-WA0025.webp", "fh2-WA0024.webp", "fh2-WA0023.webp", "fh2-WA0022.webp", "fh2-WA0021.webp", "fh2-WA0020.webp", "fh2-WA0019.webp", "fh2-WA0018.webp", "fh2-WA0017.webp", "fh2-WA0016.webp", "fh2-WA0015.webp", "fh2-WA0014.webp", "fh2-WA0013.webp", "fh2-WA0012.webp", "fh2-WA0011.webp"], emoji: "🏊", color: "#2f5d7c",
     desc: "یک باب ویلای استخردار دربست واقع در فرح آباد\nفوق العاده شیک و نوساز ، ۲۲۰ متر زمین ، ۱۶۰ متر بنا\nنزدیک دریا ، با کلیه امکانات رفاهی\n<small>۲ خواب</small>"
