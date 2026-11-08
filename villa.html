@@ -26,7 +26,7 @@ else {
       <h1 class="vtitle" style="margin-top:12px">${v.title}</h1>
       <p class="muted">${v.city} · ${v.type} · ⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</p>
       <div class="box"><h3>درباره این اقامتگاه</h3><p style="white-space:pre-line">${v.desc}</p>
-        <p class="spec">${v.rooms===1?"تک":fmt(v.rooms)} خواب${v.capacity?` · ظرفیت ${fmt(v.capacity)} نفر`:""}</p></div>
+        ${v.hideSpec?"":`<p class="spec">${v.rooms===1?"تک":fmt(v.rooms)} خواب${v.capacity?` · ظرفیت ${fmt(v.capacity)} نفر`:""}</p>`}</div>
       ${v.gallery?`<div class="box"><h3>تصاویر</h3><div class="gal">${v.gallery.map(g=>`<img src="${g}" alt="" data-full="${g}">`).join("")}</div></div>`:""}
       <div class="box"><h3>امکانات</h3>${v.amenities.map(a=>`<span class="tag">${a}</span>`).join("")}</div>
       ${v.lat&&v.lng?`<div class="box"><h3>موقعیت مکانی</h3><div id="mapprev" style="position:relative;cursor:pointer;border-radius:10px;overflow:hidden;height:260px;background:#eee"><iframe tabindex="-1" style="position:absolute;inset:-10% 0 0 -10%;width:120%;height:120%;border:0;pointer-events:none" src="" data-src=""></iframe><div style="position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:rgba(40,120,220,.25);border:3px solid rgba(40,120,220,.8)"></div><div style="position:absolute;inset:0"></div></div><p class="muted">موقعیت تقریبی است. برای مشاهده لوکیشن دقیق روی نقشه کلیک کنید.</p></div>`:v.mapUrl?`<div class="box"><h3>موقعیت روی نقشه</h3><a class="sm" target="_blank" rel="noopener" href="${v.mapUrl}">📍 نمایش روی نقشه</a></div>`:""}
