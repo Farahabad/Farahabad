@@ -123,7 +123,7 @@ select.chip{padding-inline:12px}
 
 /* ---- موبایل: هدر کوتاه‌تر (فقط زیر ۷۶۰px) ---- */
 @media(max-width:760px){
-header.top{height:120px;background:linear-gradient(180deg,#0005,#0007),url(header-mobile.webp) center/cover no-repeat}
+header.top{height:120px;background:linear-gradient(180deg,#0004,#0007),url(header-mobile.webp) 30% center/cover no-repeat}
 header.top .logo{font-size:16px;gap:2px;padding:2px 12px}
 header.top .logo img{height:56px;width:56px;padding:3px}
 header.top .tagline{display:none}
