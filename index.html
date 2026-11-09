@@ -113,7 +113,7 @@ function render(){
       <div class="info"><h3>${v.title}</h3>
         <div class="muted">${v.city} · ${v.rooms===1?"تک":fmt(v.rooms)} خواب${v.capacity?` · تا ${fmt(v.capacity)} نفر`:""}</div>
         ${v.priceText?`<div class="muted"><b>${v.priceText}</b></div>`:""}
-        <div class="muted">⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</div>
+        <div class="muted rate">${v.reviews?`⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)`:`<span class="r-old">⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</span><span class="r-new">✨ جدید</span>`}</div>
 </div>
     </a>`).join("")||"<p>موردی یافت نشد.</p>";
 }

@@ -152,3 +152,20 @@ header.top .muted{font-size:12px}
 .lb{touch-action:pan-y pinch-zoom}
 .lb-count{position:fixed;top:14px;left:50%;transform:translateX(-50%);color:#fff;font-size:14px;z-index:100;background:rgba(0,0,0,.45);padding:2px 12px;border-radius:999px}
 @media(max-width:760px){.carousel{height:250px}}
+
+/* ---- موبایل: کارت‌های گردتر (فقط زیر ۷۶۰px) ---- */
+.r-new{display:none}
+@media(max-width:760px){
+.grid{gap:18px}
+.card{border-radius:20px;box-shadow:0 4px 18px rgba(31,79,92,.12);border:1px solid #0000000d}
+.card:hover{transform:none}
+.card:active{transform:scale(.985)}
+.card .thumb{height:210px;border-radius:0}
+.card .info{padding:14px 16px 16px}
+.card h3{font-size:17px;font-weight:700;line-height:26px;margin:0 0 4px}
+.card .muted{font-size:13px;line-height:20px}
+.card .muted b{font-size:15px;font-weight:700;color:#b5532f}
+.card .rate{margin-top:2px;color:#2c4a5a;font-weight:600}
+.r-old{display:none}
+.r-new{display:inline}
+}
