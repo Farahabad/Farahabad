@@ -66,7 +66,6 @@
 
 <nav class="chipbar" aria-label="فیلتر اقامتگاه">
   <div class="chips">
-    <button type="button" class="chip chip-up" id="toTop" aria-label="رفتن به جستجو">🔍 جستجو</button>
     <button type="button" class="chip on" data-type="">همه</button>
     <button type="button" class="chip" data-type="ویلا">ویلا</button>
     <button type="button" class="chip" data-kw="سوئیت">سوئیت</button>
@@ -101,7 +100,6 @@ typeChips.forEach(c=>c.addEventListener("click",()=>{
 document.getElementById("poolChip").addEventListener("click",e=>{
   poolOn=!poolOn;e.currentTarget.classList.toggle("on",poolOn);e.currentTarget.setAttribute("aria-pressed",poolOn);render();
 });
-document.getElementById("toTop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 function render(){
   const city=document.getElementById("city").value, type=curType;
   const guests=+nd(document.getElementById("guests").value)||0, q=norm(document.getElementById("q").value);
