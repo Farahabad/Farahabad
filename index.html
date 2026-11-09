@@ -17,7 +17,7 @@
       <select id="city"><option value="">همه</option><option value="فرح‌آباد">فرح‌آباد</option><option>ساری</option></select></div>
     <div><label>جستجوی نام</label><input id="q" placeholder="مثلا استخر"></div>
     <div><label>تعداد نفرات</label><input type="text" inputmode="numeric" id="guests" placeholder="مثلا 6"></div>
-    <div style="align-self:end"><button onclick="render()" style="width:100%">جستجو</button></div>
+    <div style="align-self:end"><button onclick="doSearch()" style="width:100%">جستجو</button></div>
   </div>
   <div class="scene">
     <svg viewBox="0 700 1220 275" aria-hidden="true">
@@ -64,16 +64,19 @@
   </div>
 </section>
 
-<div class="container layout">
-  <aside class="filters">
-    <h3>فیلتر</h3>
-    <div class="row"><label class="muted">نوع اقامتگاه</label>
-      <select id="type"><option value="">همه</option><option>ویلا</option><option>سوئیت</option><option>کلبه</option></select></div>
-    <div class="row"><label class="chk"><input type="checkbox" id="pool"> استخر داشته باشد</label></div>
-    <div class="row"><label class="muted">مرتب‌سازی</label>
-      <select id="sort"><option value="">پیش‌فرض</option><option value="rate">بیشترین امتیاز</option></select></div>
-    <button onclick="render()" style="width:100%">اعمال فیلتر</button>
-  </aside>
+<nav class="chipbar" aria-label="فیلتر اقامتگاه">
+  <div class="chips">
+    <button type="button" class="chip chip-up" id="toTop" aria-label="رفتن به جستجو">🔍 جستجو</button>
+    <button type="button" class="chip on" data-type="">همه</button>
+    <button type="button" class="chip" data-type="ویلا">ویلا</button>
+    <button type="button" class="chip" data-type="سوئیت">سوئیت</button>
+    <button type="button" class="chip" data-type="کلبه">کلبه</button>
+    <button type="button" class="chip" id="poolChip" aria-pressed="false">🏊 استخر داشته باشد</button>
+    <select id="sort" class="chip" aria-label="مرتب‌سازی"><option value="">مرتب‌سازی: پیش‌فرض</option><option value="rate">بیشترین امتیاز</option></select>
+  </div>
+</nav>
+
+<div class="container">
   <main>
     <p class="muted" id="count" style="margin-bottom:10px"></p>
     <div class="grid" id="list"></div>
@@ -87,10 +90,21 @@
 const fmt = n => n.toLocaleString("fa-IR");
 const nd = s => String(s).replace(/[۰-۹]/g,c=>c.charCodeAt(0)-1776).replace(/[٠-٩]/g,c=>c.charCodeAt(0)-1632);
 const norm = s => String(s).replace(/\u064A/g,"ی").replace(/\u0643/g,"ک").replace(/[\u200c\s]/g,"");
+let curType="", poolOn=false;
+function doSearch(){render();document.getElementById("count").scrollIntoView({behavior:"smooth",block:"start"})}
+document.querySelectorAll(".chip[data-type]").forEach(c=>c.addEventListener("click",()=>{
+  curType=c.dataset.type;
+  document.querySelectorAll(".chip[data-type]").forEach(x=>x.classList.toggle("on",x===c));
+  render();
+}));
+document.getElementById("poolChip").addEventListener("click",e=>{
+  poolOn=!poolOn;e.currentTarget.classList.toggle("on",poolOn);e.currentTarget.setAttribute("aria-pressed",poolOn);render();
+});
+document.getElementById("toTop").addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
 function render(){
-  const city=document.getElementById("city").value, type=document.getElementById("type").value;
+  const city=document.getElementById("city").value, type=curType;
   const guests=+nd(document.getElementById("guests").value)||0, q=norm(document.getElementById("q").value);
-  const pool=document.getElementById("pool").checked, sort=document.getElementById("sort").value;
+  const pool=poolOn, sort=document.getElementById("sort").value;
   let r=VILLAS.filter(v=>(!city||norm(v.city)===norm(city))&&(!type||v.type===type)&&(!q||norm(v.title+v.city+v.type+v.desc+v.amenities.join("")).includes(q))&&(!v.capacity||v.capacity>=guests)&&(!pool||v.amenities.includes("استخر")));
   if(sort==="rate")r.sort((a,b)=>b.rating-a.rating);
   document.getElementById("count").textContent=fmt(r.length)+" اقامتگاه یافت شد";
