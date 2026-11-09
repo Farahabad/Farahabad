@@ -55,8 +55,8 @@ else {
   </div>`;
   const bar=document.getElementById("bookbar"), sheet=document.getElementById("sheet"), sbg=document.getElementById("sheetBg");
   const mq=window.matchMedia("(max-width:760px)");
-  function openSheet(){ if(!mq.matches){ sheet.scrollIntoView({behavior:"smooth",block:"start"}); return; } sheet.style.transform=""; sheet.classList.add("open"); sbg.classList.add("on"); document.body.style.overflow="hidden"; }
-  function closeSheet(){ sheet.classList.remove("open"); sheet.style.transform=""; sbg.classList.remove("on"); document.body.style.overflow=""; }
+  function openSheet(){ if(!mq.matches){ sheet.scrollIntoView({behavior:"smooth",block:"start"}); return; } sheet.style.transform=""; sheet.classList.add("open"); sbg.classList.add("on"); }
+  function closeSheet(){ sheet.classList.remove("open"); sheet.style.transform=""; sbg.classList.remove("on"); }
   document.getElementById("bbBtn").onclick=openSheet;
   document.getElementById("sheetX").onclick=closeSheet;
   sbg.onclick=closeSheet;
@@ -68,6 +68,9 @@ else {
     h.addEventListener("touchmove",e=>{ if(y0===null) return; dy=Math.max(0,e.touches[0].clientY-y0); sheet.style.transform="translateY("+dy+"px)"; },{passive:true});
     h.addEventListener("touchend",()=>{ if(y0===null) return; y0=null; sheet.style.transition=""; if(dy>90) closeSheet(); else sheet.style.transform=""; });
   })();
+  /* بدون قفل کردن body: لمس پس‌زمینه و پنجره‌ی کوتاه صفحه‌ی زیر را نمی‌کشد */
+  sbg.addEventListener("touchmove",e=>e.preventDefault(),{passive:false});
+  sheet.addEventListener("touchmove",e=>{ if(sheet.scrollHeight<=sheet.clientHeight+1 && !e.target.closest("input,select,textarea")) e.preventDefault(); },{passive:false});
   bar.classList.add("show");
   bar.hidden=false;
   if(v.lat&&v.lng){
@@ -158,8 +161,8 @@ function send(){
     cur=wrap(i); resetZoom(); img.src=slides[cur]; cnt.textContent=fmt(cur+1)+" / "+fmt(N);
     new Image().src=slides[wrap(cur+1)]; new Image().src=slides[wrap(cur-1)];
   }
-  function open(i){ show(i); lb.hidden=false; document.body.style.overflow="hidden"; }
-  function close(){ lb.hidden=true; document.body.style.overflow=""; if(track) carGo(cur,false); }
+  function open(i){ show(i); lb.hidden=false; }
+  function close(){ lb.hidden=true; if(track) carGo(cur,false); }
   document.addEventListener("click",e=>{
     const t=e.target;
     if(t.dataset&&t.dataset.i!==undefined&&!lb.contains(t)){ open(+t.dataset.i); return; }
