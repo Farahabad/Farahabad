@@ -75,12 +75,14 @@ footer{text-align:center;color:#888;padding:30px;font-size:13px}
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.9);overflow:hidden;z-index:99;display:flex;align-items:center;justify-content:center;padding:0}
 .lb[hidden]{display:none}
 .lb img#lbImg{display:block;max-width:100vw;max-height:100vh;max-height:100dvh;width:auto;height:auto;object-fit:contain;margin:auto;cursor:zoom-out}
-.lb-x{position:fixed;top:10px;left:10px;background:#fff;border:0;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;z-index:100}
+.lb-x{position:fixed;top:max(6px,env(safe-area-inset-top));left:6px;width:44px;height:44px;padding:0;background:none;border:0;border-radius:0;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:101;filter:drop-shadow(0 1px 2px rgba(0,0,0,.85))}
+.lb-x svg{width:26px;height:26px}
 
 
 /* ---- Jabama-style typography (sizes/weights/line-heights from jabama.com) ---- */
-@font-face{font-family:"IRANYekanX";src:url("fonts/IRANYekanXVF-s.woff2") format("woff2");font-weight:100 900;font-display:swap}
-body{font-family:"IRANYekanX",Vazirmatn,Tahoma,sans-serif;font-size:14px;line-height:20px}
+/* فونت: Vazirmatn از jsDelivr؛ اگر نرسید، زیرمجموعه محلی Vazir (فقط Regular) */
+@font-face{font-family:"VazirLocal";src:local("Vazirmatn"),local("Vazir"),url("fonts/vazir-s.woff2") format("woff2");font-weight:100 900;font-display:swap}
+body{font-family:Vazirmatn,"VazirLocal",Tahoma,sans-serif;font-size:14px;line-height:20px}
 .card h3{font-size:16px;font-weight:600;line-height:24px;margin:8px 0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .box h3,.filters h3,.booking h3{font-size:18px;font-weight:700;line-height:28px}
 .detail h1,h1.vtitle{font-size:18px;font-weight:700;line-height:28px}
@@ -145,9 +147,11 @@ header.top .muted{font-size:12px}
 .car-track::-webkit-scrollbar{display:none}
 .car-track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;scroll-snap-stop:always;cursor:zoom-in}
 .car-count{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;line-height:20px;padding:2px 10px;border-radius:999px;pointer-events:none}
-.car-nav,.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;padding:0;border-radius:50%;background:rgba(255,255,255,.85);color:#222;font-size:24px;line-height:36px;display:none}
+.car-nav,.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;padding:0;border-radius:50%;background:rgba(255,255,255,.9);color:#1f4f5c;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 6px rgba(0,0,0,.25)}
+.car-nav svg,.lb-nav svg{width:22px;height:22px;display:block}
+.lb-nav{width:44px;height:44px;background:rgba(0,0,0,.45);color:#fff;box-shadow:none}
+.lb-nav[hidden],.lb-count[hidden]{display:none}
 .car-next,.lb-next{left:10px}.car-prev,.lb-prev{right:10px}
-@media(hover:hover) and (pointer:fine){.car-nav,.lb-nav{display:block}}
 .lb-nav{position:fixed;z-index:100}
 .lb{touch-action:pan-y pinch-zoom}
 .lb-count{position:fixed;top:14px;left:50%;transform:translateX(-50%);color:#fff;font-size:14px;z-index:100;background:rgba(0,0,0,.45);padding:2px 12px;border-radius:999px}
@@ -211,17 +215,96 @@ img.lz.ld{opacity:1}
 
 /* فشردن با لمس (scale جدا از transform) */
 @media(hover:none){
-.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):active{scale:.96}
+.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):not(.lb-x):not(.chip):active{scale:.96}
 }
 
 /* پیام «لمس کنید» روی کاروسل (فقط لمسی، بعد از ۵ ثانیه محو می‌شود) */
-.car-hint{display:none;position:absolute;bottom:10px;right:10px;z-index:2;max-width:calc(100% - 96px);background:rgba(0,0,0,.6);color:#fff;font-size:12px;line-height:18px;padding:3px 10px;border-radius:14px;pointer-events:none}
+.car-hint{display:none;position:absolute;bottom:10px;right:12px;z-index:2;max-width:calc(100% - 96px);color:#fff;font-size:12px;line-height:18px;text-shadow:0 1px 3px rgba(0,0,0,.9),0 0 8px rgba(0,0,0,.6);pointer-events:none}
 @keyframes hintOut{to{opacity:0}}
 @media(hover:none){.car-hint{display:block;animation:hintOut .6s ease 5s forwards}}
+
+/* حرکت لغزشی عکس در نمایش تمام‌صفحه (translate جدا از transform زوم) */
+@keyframes lbInL{from{translate:-70px 0;opacity:.2}to{translate:0 0;opacity:1}}
+@keyframes lbInR{from{translate:70px 0;opacity:.2}to{translate:0 0;opacity:1}}
+.lb img#lbImg.in-l{animation:lbInL .28s ease-out}
+.lb img#lbImg.in-r{animation:lbInR .28s ease-out}
 
 @media(prefers-reduced-motion:reduce){
 .sk::before{animation:none;background:none}
 .card.rv{opacity:1;translate:none;transition:none}
 img.lz{transition:none}
-.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):active{scale:1}
+.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):not(.lb-x):not(.chip):active{scale:1}
+.lb img#lbImg.in-l,.lb img#lbImg.in-r{animation:none}
+.card,.bookbar,.booking,.sheet-bg,.chip{transition:none}
 }
+
+/* ===== سامانه بصری: رنگ‌ها، اندازه‌ها، دکمه‌های ۴۸ پیکسلی ===== */
+:root{--bg:#f6f1e7;--card:#fffdf8;--teal:#1f4f5c;--terra:#b5532f;--ink:#22313a;--mute:#5f676c;--line:#e6dccb;--fs-sm:12px;--fs-body:14px;--fs-btn:16px;--tap:48px}
+body{background:var(--bg);color:var(--ink);font-size:var(--fs-body);line-height:20px}
+header{background:var(--card)}
+.card,.box,.bookbar{background:var(--card)}
+.note{color:var(--mute)}
+.logo{color:var(--teal)}
+.muted{color:var(--mute);font-size:var(--fs-sm);line-height:20px}
+.am,.card .rate{color:var(--teal)}
+.am-i{background:#e7efed}
+input,select,textarea{background:#fff;border-color:var(--line)}
+.chipbar{background:rgba(246,241,231,.94)}
+.chip{background:var(--card);border-color:var(--line);color:var(--teal);font-size:var(--fs-body)}
+.chip.on{background:var(--teal);border-color:var(--teal);color:#fff}
+
+/* دکمه‌های اصلی: حداقل ۴۸ پیکسل */
+button.primary,.bookbar button,.navbtn,.contact a,.mbar a{min-height:var(--tap);font-size:var(--fs-btn);line-height:22px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.contact a{display:flex}
+.lb-x{width:var(--tap);height:var(--tap);top:max(4px,env(safe-area-inset-top));left:4px}
+.lb-nav{width:var(--tap);height:var(--tap)}
+@media(max-width:760px){
+.sheet-head{background:var(--card)}
+.card .muted{font-size:var(--fs-sm);line-height:18px}
+}
+
+/* فشردن با لمس برای لینک‌های دکمه‌ای */
+@media(hover:none) and (prefers-reduced-motion:no-preference){
+.mbar a:active,.bb-ic:active,.contact a:active{scale:.96}
+}
+
+/* نوار رزرو ویلا: آیکن تماس و واتساپ کنار دکمه رزرو */
+.bb-act{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.bb-ic{flex:0 0 auto;width:var(--tap);height:var(--tap);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.bb-ic svg{width:22px;height:22px}
+.bb-wa{background:#e3efed;color:var(--teal)}
+.bb-tel{background:#f6e4dc;color:var(--terra)}
+@media(max-width:760px){
+.bookbar{gap:10px;padding-inline:12px}
+.bookbar button{padding:0 16px}
+.bb-info .muted{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.has-bookbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+body.has-bookbar #app{padding-bottom:20px}
+}
+@media(max-width:380px){
+.bb-act{gap:6px}
+.bookbar button{padding:0 12px;font-size:15px}
+}
+
+/* نوار تماس پایین صفحه (فقط موبایل، صفحه اصلی و درباره ما) */
+.mbar{display:none}
+@media(max-width:760px){
+.mbar{display:flex;gap:10px;position:fixed;right:0;left:0;bottom:0;z-index:15;padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(255,253,248,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 -2px 14px #0002}
+.mbar a{flex:1 1 0;border-radius:12px;color:#fff}
+.mbar svg{width:20px;height:20px;flex:0 0 auto}
+.mb-wa{background:var(--teal)}
+.mb-tel{background:var(--terra)}
+body.has-mbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+}
+
+/* فوتر کامل */
+footer.site-foot{background:var(--teal);color:#f6f1e7;text-align:right;padding:28px 20px 18px;margin-top:28px;font-size:var(--fs-body);line-height:22px}
+.ft{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr 1fr 1.4fr;gap:22px}
+.ft h4{font-size:var(--fs-body);font-weight:700;line-height:22px;margin-bottom:6px;color:#fff}
+.ft a{display:block;color:#f6f1e7;padding:5px 0}
+.ft a:hover{color:#fff;text-decoration:underline}
+.ft p{color:#d6e2e0;font-size:var(--fs-sm);line-height:20px;margin-bottom:4px}
+.ft .ft-brand{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;margin-bottom:6px}
+.ft-brand img{width:40px;height:40px;border-radius:50%;background:#fff;padding:2px}
+.ft-copy{max-width:1100px;margin:18px auto 0;padding-top:12px;border-top:1px solid rgba(246,241,231,.2);text-align:center;font-size:var(--fs-sm);color:#c9d8d6}
+@media(max-width:760px){.ft{grid-template-columns:1fr;gap:16px}}

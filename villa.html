@@ -4,12 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.png"><title>جزئیات اقامتگاه | farahabad.ir</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="has-bookbar">
 <header class="top"><a href="index.html" class="logo"><img src="logo.webp" alt="farahabad.ir">farahabad.ir</a><a href="index.html" class="muted">← بازگشت به لیست</a></header>
 <div class="container" id="app"></div>
-<footer><a href="about.html" style="color:#2c4a5a;font-weight:600">درباره ما</a><br>© farahabad.ir</footer>
+<footer class="site-foot">
+  <div class="ft">
+    <div>
+      <div class="ft-brand"><img src="logo.webp" alt="" width="40" height="40">farahabad.ir</div>
+      <p>اجاره ویلا، سوئیت و کلبه در فرح‌آباد و اطراف ساری</p>
+    </div>
+    <div>
+      <h4>تماس با میزبان</h4>
+      <a href="tel:+989033462221"><span dir="ltr">۰۹۰۳۳۴۶۲۲۲۱</span></a>
+      <a href="https://wa.me/989033462221" target="_blank" rel="noopener">واتساپ</a>
+      <a href="https://t.me/farahabadir" target="_blank" rel="noopener">تلگرام</a>
+    </div>
+    <div>
+      <h4>دسترسی سریع</h4>
+      <a href="index.html">صفحه اصلی</a>
+      <a href="about.html">درباره ما</a>
+    </div>
+    <div>
+      <h4>قوانین</h4>
+      <p>ساعت ورود ۱۴ و خروج ۱۲</p>
+      <p>پرداخت آنلاین وجود ندارد.</p>
+      <p>پس از تأیید میزبان، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
+    </div>
+  </div>
+  <div class="ft-copy">© farahabad.ir - همه حقوق محفوظ است</div>
+</footer>
 <script src="villas-data.js"></script>
 <script src="jcal.js"></script>
 <script>
@@ -25,7 +52,7 @@ else {
   app.innerHTML = `
   <div class="detail">
     <div>
-      ${slides.length>1?`<div class="carousel sk" style="background:${v.color}"><div class="car-track" id="carTrack">${slides.map((g,i)=>`<img class="lz" src="${g}" alt="${v.title} - ${fmt(i+1)}" data-i="${i}" decoding="async" ${i?'loading="lazy"':'fetchpriority="high"'} onload="imgDone(this)" onerror="imgDone(this)">`).join("")}</div><div class="car-count" id="carCount">${fmt(1)} / ${fmt(slides.length)}</div><div class="car-hint" aria-hidden="true">برای دیدن تصویر در اندازه واقعی عکس را لمس کنید</div><button type="button" class="car-nav car-next" id="carNext" aria-label="بعدی">‹</button><button type="button" class="car-nav car-prev" id="carPrev" aria-label="قبلی">›</button></div>`:`<div class="thumb" style="background:${v.color}">${v.img?`<img src="${v.img}" alt="${v.title}">`:v.emoji}</div>`}
+      ${slides.length>1?`<div class="carousel sk" style="background:${v.color}"><div class="car-track" id="carTrack">${slides.map((g,i)=>`<img class="lz" src="${g}" alt="${v.title} - ${fmt(i+1)}" data-i="${i}" decoding="async" ${i?'loading="lazy"':'fetchpriority="high"'} onload="imgDone(this)" onerror="imgDone(this)">`).join("")}</div><div class="car-count" id="carCount">${fmt(1)} / ${fmt(slides.length)}</div><div class="car-hint" aria-hidden="true">برای دیدن تصویر در اندازه واقعی عکس را لمس کنید</div><button type="button" class="car-nav car-next" id="carNext" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" class="car-nav car-prev" id="carPrev" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>`:`<div class="thumb" style="background:${v.color}">${v.img?`<img src="${v.img}" alt="${v.title}" data-i="0" style="cursor:zoom-in">`:v.emoji}</div>`}
       <h1 class="vtitle" style="margin-top:12px">${v.title}</h1>
       <p class="muted">${v.city} · ${v.type} · ⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</p>
       <div class="box"><h3>درباره این اقامتگاه</h3><p style="white-space:pre-line">${v.desc}</p>
@@ -44,7 +71,7 @@ else {
       <div class="row"><label class="muted">نام و نام خانوادگی</label><input id="name"></div>
       <div class="row"><label class="muted">شماره موبایل</label><input id="phone" type="tel"></div>
       <div class="total" id="total"></div>
-      <button style="width:100%" onclick="send()">ثبت درخواست رزرو</button>
+      <button type="button" class="primary" style="width:100%" onclick="send()">ثبت درخواست رزرو</button>
       <div class="contact" id="contact" hidden></div>
       <p class="note">پرداخت آنلاین وجود ندارد. درخواست شما برای میزبان ارسال می‌شود و پس از تأیید، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
     </aside>
@@ -52,7 +79,11 @@ else {
   <div class="sheet-bg" id="sheetBg"></div>
   <div class="bookbar" id="bookbar" hidden>
     <div class="bb-info"><b>${v.priceText||v.title}</b><span class="muted">⭐ ${fmt(v.rating)} · ${v.city}</span></div>
-    <button type="button" id="bbBtn">درخواست رزرو</button>
+    <div class="bb-act">
+      <a class="bb-ic bb-wa" href="https://wa.me/${OWNER.phone}" target="_blank" rel="noopener" aria-label="واتساپ میزبان"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3z"/></svg></a>
+      <a class="bb-ic bb-tel" href="tel:+${OWNER.phone}" aria-label="تماس با میزبان"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.2 15.2 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></a>
+      <button type="button" id="bbBtn" class="primary">درخواست رزرو</button>
+    </div>
   </div>`;
   const bar=document.getElementById("bookbar"), sheet=document.getElementById("sheet"), sbg=document.getElementById("sheetBg");
   const mq=window.matchMedia("(max-width:760px)");
@@ -126,13 +157,11 @@ function send(){
   };
 }
 </script>
-</body>
-</html>
 <div id="lb" class="lb" hidden>
-  <button class="lb-x" aria-label="بستن">✕</button>
+  <button type="button" class="lb-x" aria-label="بستن"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
   <div class="lb-count" id="lbCount"></div>
-  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="بعدی">‹</button>
-  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="قبلی">›</button>
+  <button type="button" class="lb-nav lb-next" id="lbNext" aria-label="بعدی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button type="button" class="lb-nav lb-prev" id="lbPrev" aria-label="قبلی"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <img id="lbImg" alt="">
 </div>
 <script>
@@ -142,6 +171,7 @@ function send(){
   const track=document.getElementById("carTrack"), carCount=document.getElementById("carCount");
   let cur=0;
   const N=slides.length, wrap=i=>(i+N)%N;
+  if(N<2){ document.getElementById("lbNext").hidden=true; document.getElementById("lbPrev").hidden=true; cnt.hidden=true; }
 
   /* ---- کاروسل صفحه ---- */
   function carIndex(){ return track? Math.min(N-1,Math.max(0,Math.round(Math.abs(track.scrollLeft)/track.clientWidth))):0; }
@@ -158,8 +188,12 @@ function send(){
   }
 
   /* ---- نمایش تمام‌صفحه ---- */
-  function show(i){
+  /* dir: 1 = بعدی (عکس از چپ وارد می‌شود)، -1 = قبلی (از راست) */
+  function show(i,dir){
+    if(N<2&&dir) return;
     cur=wrap(i); resetZoom(); img.src=slides[cur]; cnt.textContent=fmt(cur+1)+" / "+fmt(N);
+    img.classList.remove("in-l","in-r");
+    if(dir){ void img.offsetWidth; img.classList.add(dir>0?"in-l":"in-r"); }
     new Image().src=slides[wrap(cur+1)]; new Image().src=slides[wrap(cur-1)];
   }
   function open(i){ show(i); lb.hidden=false; }
@@ -168,15 +202,15 @@ function send(){
     const t=e.target;
     if(t.dataset&&t.dataset.i!==undefined&&!lb.contains(t)){ open(+t.dataset.i); return; }
     if(lb.hidden||!lb.contains(t)) return;
-    if(t.closest("#lbNext")) show(cur+1);
-    else if(t.closest("#lbPrev")) show(cur-1);
+    if(t.closest("#lbNext")) show(cur+1,1);
+    else if(t.closest("#lbPrev")) show(cur-1,-1);
     else if(t.closest(".lb-x")||t===lb) close();
   });
   document.addEventListener("keydown",e=>{
     if(lb.hidden) return;
     if(e.key==="Escape") close();
-    else if(e.key==="ArrowLeft") show(cur+1);
-    else if(e.key==="ArrowRight") show(cur-1);
+    else if(e.key==="ArrowLeft") show(cur+1,1);
+    else if(e.key==="ArrowRight") show(cur-1,-1);
   });
   /* کشیدن انگشت: در راست‌به‌چپ، کشیدن به راست = عکس بعدی. دو انگشت = زوم. دو بار لمس = زوم/بازگشت */
   let sc=1,tx=0,ty=0,mode=null,x0=0,y0=0,d0=0,s0=1,tx0=0,ty0=0,lastTap=0,moved=false;
@@ -202,10 +236,12 @@ function send(){
     if(m==="pan"){ if(Math.abs(dx)<8&&Math.abs(dy)<8) dbl(); return; }
     if(m!=="swipe") return;
     if(Math.abs(dx)<8&&Math.abs(dy)<8){ if(e.target===img) dbl(); return; }
-    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ show(dx>0?cur+1:cur-1); }
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ show(dx>0?cur+1:cur-1,dx>0?1:-1); }
     else if(dy>90&&Math.abs(dy)>Math.abs(dx)*1.5){ close(); }
   },{passive:true});
   function dbl(){ const n=Date.now(); if(n-lastTap<300){ if(sc>1) resetZoom(); else { sc=2.5; tx=0; ty=0; apply(); } lastTap=0; } else lastTap=n; }
   img.addEventListener("dblclick",()=>{ if(sc>1) resetZoom(); else { sc=2.5; apply(); } });
 })();
 </script>
+</body>
+</html>
