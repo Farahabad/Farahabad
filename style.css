@@ -127,3 +127,15 @@ header.top .logo{font-size:17px;gap:4px;padding:2px 12px}
 header.top .logo img{height:78px;width:78px;padding:3px}
 header.top .muted{font-size:12px}
 }
+
+/* ---- نوار ثابت رزرو (فقط موبایل، صفحه ویلا) ---- */
+.bookbar{display:none}
+@media(max-width:760px){
+.bookbar{display:flex;align-items:center;justify-content:space-between;gap:12px;position:fixed;right:0;left:0;bottom:0;z-index:20;background:#fff;padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -2px 14px #0002;border-radius:16px 16px 0 0;transform:translateY(110%);transition:transform .25s}
+.bookbar.show{transform:none}
+.bb-info{display:flex;flex-direction:column;min-width:0;line-height:1.5}
+.bb-info b{font-size:14px;color:#b5532f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bb-info .muted{font-size:12px}
+.bookbar button{flex:0 0 auto;padding:10px 20px;font-size:15px;font-weight:700}
+#app{padding-bottom:84px}
+}

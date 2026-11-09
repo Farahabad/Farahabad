@@ -69,7 +69,7 @@
     <button type="button" class="chip chip-up" id="toTop" aria-label="رفتن به جستجو">🔍 جستجو</button>
     <button type="button" class="chip on" data-type="">همه</button>
     <button type="button" class="chip" data-type="ویلا">ویلا</button>
-    <button type="button" class="chip" data-type="سوئیت">سوئیت</button>
+    <button type="button" class="chip" data-kw="سوئیت">سوئیت</button>
     <button type="button" class="chip" data-type="کلبه">کلبه</button>
     <button type="button" class="chip" id="poolChip" aria-pressed="false">🏊 استخر داشته باشد</button>
     <select id="sort" class="chip" aria-label="مرتب‌سازی"><option value="">مرتب‌سازی: پیش‌فرض</option><option value="rate">بیشترین امتیاز</option></select>
@@ -90,11 +90,12 @@
 const fmt = n => n.toLocaleString("fa-IR");
 const nd = s => String(s).replace(/[۰-۹]/g,c=>c.charCodeAt(0)-1776).replace(/[٠-٩]/g,c=>c.charCodeAt(0)-1632);
 const norm = s => String(s).replace(/\u064A/g,"ی").replace(/\u0643/g,"ک").replace(/[\u200c\s]/g,"");
-let curType="", poolOn=false;
+let curType="", curKw="", poolOn=false;
 function doSearch(){render();document.getElementById("count").scrollIntoView({behavior:"smooth",block:"start"})}
-document.querySelectorAll(".chip[data-type]").forEach(c=>c.addEventListener("click",()=>{
-  curType=c.dataset.type;
-  document.querySelectorAll(".chip[data-type]").forEach(x=>x.classList.toggle("on",x===c));
+const typeChips=document.querySelectorAll(".chip[data-type],.chip[data-kw]");
+typeChips.forEach(c=>c.addEventListener("click",()=>{
+  curType=c.dataset.type||""; curKw=c.dataset.kw||"";
+  typeChips.forEach(x=>x.classList.toggle("on",x===c));
   render();
 }));
 document.getElementById("poolChip").addEventListener("click",e=>{
@@ -105,7 +106,7 @@ function render(){
   const city=document.getElementById("city").value, type=curType;
   const guests=+nd(document.getElementById("guests").value)||0, q=norm(document.getElementById("q").value);
   const pool=poolOn, sort=document.getElementById("sort").value;
-  let r=VILLAS.filter(v=>(!city||norm(v.city)===norm(city))&&(!type||v.type===type)&&(!q||norm(v.title+v.city+v.type+v.desc+v.amenities.join("")).includes(q))&&(!v.capacity||v.capacity>=guests)&&(!pool||v.amenities.includes("استخر")));
+  let r=VILLAS.filter(v=>(!city||norm(v.city)===norm(city))&&(!type||v.type===type)&&(!curKw||norm(v.title).includes(norm(curKw)))&&(!q||norm(v.title+v.city+v.type+v.desc+v.amenities.join("")).includes(q))&&(!v.capacity||v.capacity>=guests)&&(!pool||v.amenities.includes("استخر")));
   if(sort==="rate")r.sort((a,b)=>b.rating-a.rating);
   document.getElementById("count").textContent=fmt(r.length)+" اقامتگاه یافت شد";
   document.getElementById("list").innerHTML=r.map(v=>`

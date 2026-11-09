@@ -44,7 +44,17 @@ else {
       <div class="contact" id="contact" hidden></div>
       <p class="note">پرداخت آنلاین وجود ندارد. درخواست شما برای میزبان ارسال می‌شود و پس از تأیید، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
     </aside>
+  </div>
+  <div class="bookbar" id="bookbar" hidden>
+    <div class="bb-info"><b>${v.priceText||v.title}</b><span class="muted">⭐ ${fmt(v.rating)} · ${v.city}</span></div>
+    <button type="button" id="bbBtn">درخواست رزرو</button>
   </div>`;
+  const bar=document.getElementById("bookbar"), form=document.querySelector(".booking");
+  document.getElementById("bbBtn").onclick=()=>form.scrollIntoView({behavior:"smooth",block:"start"});
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(es=>{bar.classList.toggle("show",!es[0].isIntersecting)},{threshold:.15}).observe(form);
+  } else bar.classList.add("show");
+  bar.hidden=false;
   if(v.lat&&v.lng){
     const ap=[v.lat+0.0012,v.lng-0.0015];
     const d=0.01,bb=[ap[1]-d,ap[0]-d,ap[1]+d,ap[0]+d].join("%2C");
