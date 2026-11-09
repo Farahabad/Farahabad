@@ -19,6 +19,7 @@ const app = document.getElementById("app");
 if(!v){ app.innerHTML="<p>اقامتگاه پیدا نشد.</p>"; }
 else {
   document.title = v.title + " | farahabad.ir";
+  const AMI={"استخر":"🏊","جکوزی":"♨️","پارکینگ":"🅿️","اسپیکر":"🔊","فوتبال دستی":"⚽","بیلیارد":"🎱","باربیکیو":"🍖","آلاچیق":"⛺","توالت فرنگی":"🚽","توالت ایرانی":"🚻"};
   var slides = v.gallery && v.gallery.length ? v.gallery : (v.img ? [v.img] : []);
   app.innerHTML = `
   <div class="detail">
@@ -29,11 +30,12 @@ else {
       <div class="box"><h3>درباره این اقامتگاه</h3><p style="white-space:pre-line">${v.desc}</p>
         ${v.hideSpec?"":`<p class="spec">${v.rooms===1?"تک":fmt(v.rooms)} خواب${v.capacity?` · ظرفیت ${fmt(v.capacity)} نفر`:""}</p>`}</div>
       ${v.gallery?`<div class="box"><h3>تصاویر</h3><div class="gal">${v.gallery.map((g,i)=>`<img src="${g}" alt="" data-i="${i}" loading="lazy">`).join("")}</div></div>`:""}
-      <div class="box"><h3>امکانات</h3>${v.amenities.map(a=>`<span class="tag">${a}</span>`).join("")}</div>
-      ${v.lat&&v.lng?`<div class="box"><h3>موقعیت مکانی</h3><div id="mapprev" style="position:relative;cursor:pointer;border-radius:10px;overflow:hidden;height:260px;background:#eee"><iframe tabindex="-1" style="position:absolute;inset:-10% 0 0 -10%;width:120%;height:120%;border:0;pointer-events:none" src="" data-src=""></iframe><div style="position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:rgba(40,120,220,.25);border:3px solid rgba(40,120,220,.8)"></div><div style="position:absolute;inset:0"></div></div><p class="muted">موقعیت تقریبی است. برای مشاهده لوکیشن دقیق روی نقشه کلیک کنید.</p></div>`:v.mapUrl?`<div class="box"><h3>موقعیت روی نقشه</h3><a class="sm" target="_blank" rel="noopener" href="${v.mapUrl}">📍 نمایش روی نقشه</a></div>`:""}
+      <div class="box"><h3>امکانات</h3><div class="amen">${v.amenities.map(a=>`<div class="am"><span class="am-i" aria-hidden="true">${AMI[a]||"✔️"}</span><span>${a}</span></div>`).join("")}</div></div>
+      ${v.lat&&v.lng?`<div class="box"><h3>موقعیت مکانی</h3><div id="mapprev" style="position:relative;cursor:pointer;border-radius:10px;overflow:hidden;height:260px;background:#eee"><iframe tabindex="-1" style="position:absolute;inset:-10% 0 0 -10%;width:120%;height:120%;border:0;pointer-events:none" src="" data-src=""></iframe><div style="position:absolute;left:50%;top:50%;width:30%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:rgba(40,120,220,.25);border:3px solid rgba(40,120,220,.8)"></div><div class="map-pin" aria-hidden="true">📍</div><div style="position:absolute;inset:0"></div></div><p class="muted">موقعیت تقریبی است. برای مشاهده لوکیشن دقیق روی نقشه کلیک کنید.</p><a class="navbtn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${v.lat},${v.lng}">🧭 مسیریابی</a></div>`:v.mapUrl?`<div class="box"><h3>موقعیت روی نقشه</h3><a class="sm" target="_blank" rel="noopener" href="${v.mapUrl}">📍 نمایش روی نقشه</a></div>`:""}
       <div class="box"><h3>قوانین</h3><p class="muted">ساعت ورود ۱۴ و خروج ۱۲</p></div>
     </div>
-    <aside class="box booking">
+    <aside class="box booking" id="sheet">
+      <div class="sheet-head" id="sheetHead"><i></i><button type="button" class="sheet-x" id="sheetX" aria-label="بستن">✕</button></div>
       <h3>درخواست رزرو</h3>
       <div class="row"><label class="muted">تاریخ ورود</label><input id="in" readonly></div>
       <div class="row"><label class="muted">تاریخ خروج</label><input id="out" readonly></div>
@@ -46,15 +48,27 @@ else {
       <p class="note">پرداخت آنلاین وجود ندارد. درخواست شما برای میزبان ارسال می‌شود و پس از تأیید، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
     </aside>
   </div>
+  <div class="sheet-bg" id="sheetBg"></div>
   <div class="bookbar" id="bookbar" hidden>
     <div class="bb-info"><b>${v.priceText||v.title}</b><span class="muted">⭐ ${fmt(v.rating)} · ${v.city}</span></div>
     <button type="button" id="bbBtn">درخواست رزرو</button>
   </div>`;
-  const bar=document.getElementById("bookbar"), form=document.querySelector(".booking");
-  document.getElementById("bbBtn").onclick=()=>form.scrollIntoView({behavior:"smooth",block:"start"});
-  if("IntersectionObserver" in window){
-    new IntersectionObserver(es=>{bar.classList.toggle("show",!es[0].isIntersecting)},{threshold:.15}).observe(form);
-  } else bar.classList.add("show");
+  const bar=document.getElementById("bookbar"), sheet=document.getElementById("sheet"), sbg=document.getElementById("sheetBg");
+  const mq=window.matchMedia("(max-width:760px)");
+  function openSheet(){ if(!mq.matches){ sheet.scrollIntoView({behavior:"smooth",block:"start"}); return; } sheet.style.transform=""; sheet.classList.add("open"); sbg.classList.add("on"); document.body.style.overflow="hidden"; }
+  function closeSheet(){ sheet.classList.remove("open"); sheet.style.transform=""; sbg.classList.remove("on"); document.body.style.overflow=""; }
+  document.getElementById("bbBtn").onclick=openSheet;
+  document.getElementById("sheetX").onclick=closeSheet;
+  sbg.onclick=closeSheet;
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&sheet.classList.contains("open")&&document.getElementById("lb").hidden) closeSheet(); });
+  mq.addEventListener&&mq.addEventListener("change",closeSheet);
+  (function(){ /* کشیدن سربرگ به پایین = بستن */
+    const h=document.getElementById("sheetHead"); let y0=null,dy=0;
+    h.addEventListener("touchstart",e=>{ y0=e.touches[0].clientY; dy=0; sheet.style.transition="none"; },{passive:true});
+    h.addEventListener("touchmove",e=>{ if(y0===null) return; dy=Math.max(0,e.touches[0].clientY-y0); sheet.style.transform="translateY("+dy+"px)"; },{passive:true});
+    h.addEventListener("touchend",()=>{ if(y0===null) return; y0=null; sheet.style.transition=""; if(dy>90) closeSheet(); else sheet.style.transform=""; });
+  })();
+  bar.classList.add("show");
   bar.hidden=false;
   if(v.lat&&v.lng){
     const ap=[v.lat+0.0012,v.lng-0.0015];
@@ -141,7 +155,7 @@ function send(){
 
   /* ---- نمایش تمام‌صفحه ---- */
   function show(i){
-    cur=wrap(i); img.src=slides[cur]; cnt.textContent=fmt(cur+1)+" / "+fmt(N);
+    cur=wrap(i); resetZoom(); img.src=slides[cur]; cnt.textContent=fmt(cur+1)+" / "+fmt(N);
     new Image().src=slides[wrap(cur+1)]; new Image().src=slides[wrap(cur-1)];
   }
   function open(i){ show(i); lb.hidden=false; document.body.style.overflow="hidden"; }
@@ -160,14 +174,34 @@ function send(){
     else if(e.key==="ArrowLeft") show(cur+1);
     else if(e.key==="ArrowRight") show(cur-1);
   });
-  /* کشیدن انگشت: در راست‌به‌چپ، کشیدن به راست = عکس بعدی */
-  let x0=null,y0=0;
-  lb.addEventListener("touchstart",e=>{ if(e.touches.length>1){x0=null;return;} x0=e.touches[0].clientX; y0=e.touches[0].clientY; },{passive:true});
+  /* کشیدن انگشت: در راست‌به‌چپ، کشیدن به راست = عکس بعدی. دو انگشت = زوم. دو بار لمس = زوم/بازگشت */
+  let sc=1,tx=0,ty=0,mode=null,x0=0,y0=0,d0=0,s0=1,tx0=0,ty0=0,lastTap=0,moved=false;
+  const apply=()=>{ img.style.transform=sc===1?"":`translate(${tx}px,${ty}px) scale(${sc})`; };
+  function resetZoom(){ sc=1;tx=0;ty=0;apply(); }
+  const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+  lb.addEventListener("touchstart",e=>{
+    moved=false;
+    if(e.touches.length>1){ mode="pinch"; d0=dist(e.touches); s0=sc; return; }
+    x0=e.touches[0].clientX; y0=e.touches[0].clientY; tx0=tx; ty0=ty;
+    mode=sc>1?"pan":"swipe";
+  },{passive:true});
+  lb.addEventListener("touchmove",e=>{
+    if(mode==="pinch"&&e.touches.length>1){ sc=Math.min(4,Math.max(1,s0*dist(e.touches)/d0)); moved=true; apply(); e.preventDefault(); }
+    else if(mode==="pan"&&e.touches.length===1){ tx=tx0+e.touches[0].clientX-x0; ty=ty0+e.touches[0].clientY-y0; moved=true; apply(); e.preventDefault(); }
+  },{passive:false});
   lb.addEventListener("touchend",e=>{
-    if(x0===null) return;
-    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0; x0=null;
+    if(e.touches.length) return;
+    const m=mode; mode=null;
+    if(sc<1.05) resetZoom();
+    if(m==="pinch") return;
+    const dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(m==="pan"){ if(Math.abs(dx)<8&&Math.abs(dy)<8) dbl(); return; }
+    if(m!=="swipe") return;
+    if(Math.abs(dx)<8&&Math.abs(dy)<8){ if(e.target===img) dbl(); return; }
     if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5){ show(dx>0?cur+1:cur-1); }
     else if(dy>90&&Math.abs(dy)>Math.abs(dx)*1.5){ close(); }
   },{passive:true});
+  function dbl(){ const n=Date.now(); if(n-lastTap<300){ if(sc>1) resetZoom(); else { sc=2.5; tx=0; ty=0; apply(); } lastTap=0; } else lastTap=n; }
+  img.addEventListener("dblclick",()=>{ if(sc>1) resetZoom(); else { sc=2.5; apply(); } });
 })();
 </script>

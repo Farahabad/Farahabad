@@ -169,3 +169,29 @@ header.top .muted{font-size:12px}
 .r-old{display:none}
 .r-new{display:inline}
 }
+
+/* ---- امکانات با آیکن ---- */
+.amen{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.am{display:flex;align-items:center;gap:10px;font-size:14px;line-height:20px;color:#2c4a5a}
+.am-i{flex:0 0 auto;width:36px;height:36px;border-radius:12px;background:#eef4f5;display:flex;align-items:center;justify-content:center;font-size:19px}
+
+/* ---- نقشه ---- */
+.map-pin{position:absolute;left:50%;top:50%;transform:translate(-50%,-85%);font-size:34px;line-height:1;filter:drop-shadow(0 2px 3px #0006);pointer-events:none}
+.navbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;padding:10px 18px;border-radius:12px;background:#1f4f5c;color:#fff;font-weight:700;font-size:14px;text-decoration:none}
+.navbtn:active{transform:scale(.97)}
+
+/* ---- پنجره پایین‌کش رزرو (فقط موبایل) ---- */
+.sheet-head,.sheet-bg{display:none}
+.lb{touch-action:none}
+.lb img#lbImg{transition:transform .15s;will-change:transform}
+@media(max-width:760px){
+.booking{position:fixed;right:0;left:0;bottom:0;top:auto;z-index:60;margin:0;max-height:90vh;max-height:90dvh;overflow-y:auto;overscroll-behavior:contain;border-radius:22px 22px 0 0;padding:0 16px calc(18px + env(safe-area-inset-bottom));box-shadow:0 -6px 30px #0004;transform:translateY(105%);visibility:hidden;transition:transform .28s ease,visibility 0s .28s}
+.booking.open{transform:none;visibility:visible;transition:transform .28s ease}
+.sheet-head{display:flex;justify-content:center;align-items:center;position:sticky;top:0;z-index:2;background:#fff;height:34px;margin:0 -16px 4px;touch-action:none}
+.sheet-head i{width:42px;height:5px;border-radius:3px;background:#cfd8dc}
+.sheet-x{position:absolute;left:10px;top:3px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#eef2f3;color:#456;font-size:14px;line-height:30px}
+.sheet-bg{display:block;position:fixed;inset:0;z-index:55;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .25s}
+.sheet-bg.on{opacity:1;pointer-events:auto}
+.gal{display:none}
+.box:has(>.gal){display:none}
+}
