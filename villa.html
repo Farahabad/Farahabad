@@ -7,12 +7,13 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="top"><a href="index.html" class="logo"><img src="logo.png" alt="farahabad.ir">farahabad.ir</a><a href="index.html" class="muted">← بازگشت به لیست</a></header>
+<header class="top"><a href="index.html" class="logo"><img src="logo.webp" alt="farahabad.ir">farahabad.ir</a><a href="index.html" class="muted">← بازگشت به لیست</a></header>
 <div class="container" id="app"></div>
 <footer><a href="about.html" style="color:#2c4a5a;font-weight:600">درباره ما</a><br>© farahabad.ir</footer>
 <script src="villas-data.js"></script>
 <script src="jcal.js"></script>
 <script>
+function imgDone(el){el.classList.add("ld");const p=el.closest(".sk");if(p)p.classList.remove("sk")}
 const fmt = n => n.toLocaleString("fa-IR");
 const v = VILLAS.find(x=>x.id==new URLSearchParams(location.search).get("id"));
 const app = document.getElementById("app");
@@ -24,7 +25,7 @@ else {
   app.innerHTML = `
   <div class="detail">
     <div>
-      ${slides.length>1?`<div class="carousel" style="background:${v.color}"><div class="car-track" id="carTrack">${slides.map((g,i)=>`<img src="${g}" alt="${v.title} - ${fmt(i+1)}" data-i="${i}" ${i?'loading="lazy"':""}>`).join("")}</div><div class="car-count" id="carCount">${fmt(1)} / ${fmt(slides.length)}</div><button type="button" class="car-nav car-next" id="carNext" aria-label="بعدی">‹</button><button type="button" class="car-nav car-prev" id="carPrev" aria-label="قبلی">›</button></div>`:`<div class="thumb" style="background:${v.color}">${v.img?`<img src="${v.img}" alt="${v.title}">`:v.emoji}</div>`}
+      ${slides.length>1?`<div class="carousel sk" style="background:${v.color}"><div class="car-track" id="carTrack">${slides.map((g,i)=>`<img class="lz" src="${g}" alt="${v.title} - ${fmt(i+1)}" data-i="${i}" decoding="async" ${i?'loading="lazy"':'fetchpriority="high"'} onload="imgDone(this)" onerror="imgDone(this)">`).join("")}</div><div class="car-count" id="carCount">${fmt(1)} / ${fmt(slides.length)}</div><div class="car-hint" aria-hidden="true">برای دیدن تصویر در اندازه واقعی عکس را لمس کنید</div><button type="button" class="car-nav car-next" id="carNext" aria-label="بعدی">‹</button><button type="button" class="car-nav car-prev" id="carPrev" aria-label="قبلی">›</button></div>`:`<div class="thumb" style="background:${v.color}">${v.img?`<img src="${v.img}" alt="${v.title}">`:v.emoji}</div>`}
       <h1 class="vtitle" style="margin-top:12px">${v.title}</h1>
       <p class="muted">${v.city} · ${v.type} · ⭐ ${fmt(v.rating)} (${fmt(v.reviews)} نظر)</p>
       <div class="box"><h3>درباره این اقامتگاه</h3><p style="white-space:pre-line">${v.desc}</p>

@@ -141,7 +141,7 @@ header.top .muted{font-size:12px}
 
 /* ---- گالری کشیدنی ---- */
 .carousel{position:relative;height:300px;border-radius:14px;overflow:hidden}
-.car-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+.car-track{position:relative;z-index:1;display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
 .car-track::-webkit-scrollbar{display:none}
 .car-track img{flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:start;scroll-snap-stop:always;cursor:zoom-in}
 .car-count{position:absolute;bottom:10px;left:10px;background:rgba(0,0,0,.55);color:#fff;font-size:12px;line-height:20px;padding:2px 10px;border-radius:999px;pointer-events:none}
@@ -159,7 +159,6 @@ header.top .muted{font-size:12px}
 .grid{gap:18px}
 .card{border-radius:20px;box-shadow:0 4px 18px rgba(31,79,92,.12);border:1px solid #0000000d}
 .card:hover{transform:none}
-.card:active{transform:scale(.985)}
 .card .thumb{height:210px;border-radius:0}
 .card .info{padding:14px 16px 16px}
 .card h3{font-size:17px;font-weight:700;line-height:26px;margin:0 0 4px}
@@ -196,3 +195,33 @@ header.top .muted{font-size:12px}
 .box:has(>.gal){display:none}
 }
 .sheet-bg{touch-action:none}
+
+/* ---- حس و حرکت ---- */
+/* اسکلتون: برق‌زدن روی تصویر تا لود شدن */
+.thumb{position:relative}
+.sk::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,.4) 50%,transparent 70%);background-size:250% 100%;animation:shim 1.3s linear infinite}
+@keyframes shim{from{background-position:100% 0}to{background-position:0 0}}
+img.lz{opacity:0;transition:opacity .35s ease}
+img.lz.ld{opacity:1}
+.car-count,.car-nav{z-index:2}
+
+/* ظهور کارت‌ها هنگام اسکرول (translate جدا از transform هاور) */
+.card.rv{opacity:0;translate:0 18px;transition:opacity .5s ease,translate .5s ease,transform .2s,box-shadow .2s}
+.card.rv.in{opacity:1;translate:0 0}
+
+/* فشردن با لمس (scale جدا از transform) */
+@media(hover:none){
+.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):active{scale:.96}
+}
+
+/* پیام «لمس کنید» روی کاروسل (فقط لمسی، بعد از ۵ ثانیه محو می‌شود) */
+.car-hint{display:none;position:absolute;bottom:10px;right:10px;z-index:2;max-width:calc(100% - 96px);background:rgba(0,0,0,.6);color:#fff;font-size:12px;line-height:18px;padding:3px 10px;border-radius:14px;pointer-events:none}
+@keyframes hintOut{to{opacity:0}}
+@media(hover:none){.car-hint{display:block;animation:hintOut .6s ease 5s forwards}}
+
+@media(prefers-reduced-motion:reduce){
+.sk::before{animation:none;background:none}
+.card.rv{opacity:1;translate:none;transition:none}
+img.lz{transition:none}
+.card:active,.btn:active,button:not(.car-nav):not(.lb-nav):active{scale:1}
+}
