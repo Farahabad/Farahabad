@@ -107,3 +107,18 @@ header.top .muted{position:relative;z-index:1;color:#fff;text-shadow:0 1px 4px #
 .scene{margin-top:4px}
 .scene svg{height:36px;width:100%}
 }
+
+/* ---- موبایل: پنل فیلتر فشرده (فقط زیر ۷۶۰px) ---- */
+@media(max-width:760px){
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:6px 8px;padding:8px 10px}
+.filters h3{grid-column:1;grid-row:1;font-size:15px;line-height:22px;margin:0;align-self:center}
+.filters .row{margin:0;min-width:0}
+.filters .row label.muted{font-size:11px;line-height:14px;display:block}
+.filters select{padding:4px 8px;font-size:13px;line-height:18px}
+.filters .row:has(.chk){grid-column:2;grid-row:1;justify-self:end;align-self:center}
+.filters .chk{font-size:12px;line-height:18px;gap:4px}
+.filters .row:nth-of-type(1){order:3}
+.filters .row:nth-of-type(2){order:2}
+.filters .row:nth-of-type(3){order:4}
+.filters button{grid-column:1/-1;order:5;padding:6px 12px;font-size:14px;line-height:18px;margin:0}
+}
