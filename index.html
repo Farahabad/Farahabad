@@ -27,7 +27,7 @@
         <input type="text" inputmode="numeric" id="guests" placeholder="همه" aria-label="تعداد نفرات">
         <button type="button" class="st-btn" data-step="-1" aria-label="کاهش نفرات">−</button>
       </div></div>
-    <button type="button" class="search-go" onclick="doSearch()">جستجو</button>
+    <button type="button" class="search-go" onclick="doSearch()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg><span>جستجو</span></button>
     <details class="more">
       <summary>جستجوی دقیق‌تر</summary>
       <label for="q">جستجوی نام یا امکانات</label><input id="q" placeholder="مثلا استخر">
@@ -48,7 +48,7 @@
 
 <div class="container">
   <main>
-    <p class="muted" id="count" style="margin-bottom:10px"></p>
+    <p class="muted" id="count" style="margin-bottom:10px" hidden></p>
     <div class="grid" id="list"></div>
   </main>
 </div>
@@ -105,8 +105,8 @@ function revealCards(){
 const fmt = n => n.toLocaleString("fa-IR");
 const nd = s => String(s).replace(/[۰-۹]/g,c=>c.charCodeAt(0)-1776).replace(/[٠-٩]/g,c=>c.charCodeAt(0)-1632);
 const norm = s => String(s).replace(/\u064A/g,"ی").replace(/\u0643/g,"ک").replace(/[\u200c\s]/g,"");
-let curType="", curKw="", poolOn=false;
-function doSearch(){render();document.getElementById("count").scrollIntoView({behavior:"smooth",block:"start"})}
+let curType="", curKw="", poolOn=false, searched=false;
+function doSearch(){searched=true;render();document.getElementById("list").scrollIntoView({behavior:"smooth",block:"start"})}
 const typeChips=document.querySelectorAll(".chip[data-type],.chip[data-kw]");
 typeChips.forEach(c=>c.addEventListener("click",()=>{
   curType=c.dataset.type||""; curKw=c.dataset.kw||"";
@@ -122,7 +122,8 @@ function render(){
   const pool=poolOn, sort=document.getElementById("sort").value;
   let r=VILLAS.filter(v=>(!city||norm(v.city)===norm(city))&&(!type||v.type===type)&&(!curKw||norm(v.title).includes(norm(curKw)))&&(!q||norm(v.title+v.city+v.type+v.desc+v.amenities.join("")).includes(q))&&(!v.capacity||v.capacity>=guests)&&(!pool||v.amenities.includes("استخر")));
   if(sort==="rate")r.sort((a,b)=>b.rating-a.rating);
-  document.getElementById("count").textContent=fmt(r.length)+" اقامتگاه یافت شد";
+  const cnt=document.getElementById("count"), active=searched||city||type||curKw||guests||q||pool;
+  cnt.hidden=!active; cnt.textContent=active?fmt(r.length)+" اقامتگاه یافت شد":"";
   document.getElementById("list").innerHTML=r.map(v=>`
     <a class="card" href="villa.html?id=${v.id}">
       <div class="thumb${v.img?" sk":""}" style="background:${v.color}">${v.img?`<img class="lz" src="${v.img}" alt="${v.title}" loading="lazy" decoding="async" onload="imgDone(this)" onerror="imgDone(this)">`:v.emoji}${v.priceText?`<span class="badge b-price">${v.priceText}</span>`:""}</div>

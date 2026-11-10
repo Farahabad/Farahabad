@@ -367,3 +367,19 @@ footer.site-foot{background:var(--teal);color:#f6f1e7;text-align:right;padding:2
   .hero-logo img{width:72px;height:72px}
   .hero .search{max-width:310px;margin:0 auto;padding:8px 10px}
 }
+
+/* ===== v4: search button + villa videos ===== */
+.hero .search .search-go{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:42px;padding:0 22px;border:0;border-radius:999px;background:#fff;color:var(--teal);font-size:15px;font-weight:700;letter-spacing:0;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s}
+.hero .search .search-go svg{flex:none;color:var(--terra)}
+.hero .search .search-go:hover{background:#fdf8ee;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.hero .search .search-go:active{transform:scale(.97)}
+.hero .search .search-go:focus-visible{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}
+.vids{display:grid;gap:12px}
+.vid{margin:0}
+.vid video,.vid-frame{display:block;width:100%;aspect-ratio:16/9;background:#0d1f26;border-radius:12px;overflow:hidden}
+.vid video{object-fit:contain;max-height:70vh}
+.vid-frame{position:relative}
+.vid-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid figcaption{margin-top:6px;font-size:var(--fs-sm);color:var(--mute)}
+@media(min-width:761px){.vids{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}}
+@media(max-width:760px){.hero .search .search-go{height:42px;padding:0}}
