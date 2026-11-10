@@ -19,8 +19,16 @@
     <p class="hero-sub">ویلا، سوئیت و کلبه</p>
   </div>
   <div class="search">
-    <div><label for="city">شهر</label>
-      <select id="city"><option value="">همه</option><option value="فرح‌آباد">فرح‌آباد</option><option>ساری</option></select></div>
+    <div class="cwrap" id="cityWrap"><label for="cityBtn">شهر</label>
+      <div class="cdd">
+      <button type="button" class="cbtn" id="cityBtn" aria-haspopup="listbox" aria-expanded="false" aria-controls="cityList"><span id="cityVal">همه</span><svg class="cchev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <ul class="clist" id="cityList" role="listbox" aria-label="شهر">
+        <li role="option" tabindex="-1" data-v="" aria-selected="true">همه</li>
+        <li role="option" tabindex="-1" data-v="فرح‌آباد" aria-selected="false">فرح‌آباد</li>
+        <li role="option" tabindex="-1" data-v="ساری" aria-selected="false">ساری</li>
+      </ul>
+      </div>
+      <select id="city" hidden><option value="">همه</option><option value="فرح‌آباد">فرح‌آباد</option><option value="ساری">ساری</option></select></div>
     <div><label for="guests">تعداد نفرات</label>
       <div class="stepper">
         <button type="button" class="st-btn" data-step="1" aria-label="افزایش نفرات">+</button>
@@ -38,10 +46,10 @@
 <nav class="chipbar" aria-label="فیلتر اقامتگاه">
   <div class="chips">
     <button type="button" class="chip on" data-type="">همه</button>
-    <button type="button" class="chip" data-type="ویلا"><span class="ci" aria-hidden="true">🏡</span>ویلا</button>
-    <button type="button" class="chip" data-kw="سوئیت"><span class="ci" aria-hidden="true">🛏️</span>سوئیت</button>
-    <button type="button" class="chip" data-type="کلبه"><span class="ci" aria-hidden="true">🛖</span>کلبه</button>
-    <button type="button" class="chip" id="poolChip" aria-pressed="false"><span class="ci" aria-hidden="true">🏊</span>استخر داشته باشد</button>
+    <button type="button" class="chip" data-type="ویلا"><svg class="ci" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 20V10l7-5 7 5v10"/><path d="M9 20v-5h6v5"/></svg>ویلا</button>
+    <button type="button" class="chip" data-kw="سوئیت"><svg class="ci" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 18V6"/><path d="M3 14h18v4"/><path d="M21 14v-2.5A2.5 2.5 0 0 0 18.5 9H11v5"/><circle cx="7" cy="11" r="2"/></svg>سوئیت</button>
+    <button type="button" class="chip" data-type="کلبه"><svg class="ci" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20L12 5l9 15"/><path d="M8.5 20L12 14l3.5 6"/></svg>کلبه</button>
+    <button type="button" class="chip" id="poolChip" aria-pressed="false"><svg class="ci" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 15q2.5-2.5 5 0t5 0t5 0t5 0"/><path d="M2 19.5q2.5-2.5 5 0t5 0t5 0t5 0"/></svg>استخر داشته باشد</button>
     <select id="sort" class="chip" aria-label="مرتب‌سازی"><option value="">مرتب‌سازی: پیش‌فرض</option><option value="rate">بیشترین امتیاز</option></select>
   </div>
 </nav>
@@ -135,6 +143,32 @@ document.querySelectorAll(".st-btn").forEach(b=>b.addEventListener("click",()=>{
   g.value=n?fmt(n):"";
   g.dispatchEvent(new Event("input",{bubbles:true}));
 }));
+/* منوی سفارشی شهر: همگام با select مخفی #city */
+const cWrap=document.getElementById("cityWrap"), cBtn=document.getElementById("cityBtn"), cList=document.getElementById("cityList"), cVal=document.getElementById("cityVal"), cSel=document.getElementById("city");
+function cityOpen(on){
+  cWrap.classList.toggle("open",on); cBtn.setAttribute("aria-expanded",String(on));
+  if(on){ const cur=cList.querySelector('[aria-selected="true"]'); (cur||cList.firstElementChild).focus({preventScroll:true}); }
+}
+function cityPick(v){
+  cSel.value=v;
+  const items=[...cList.children];
+  items.forEach(li=>li.setAttribute("aria-selected",String(li.dataset.v===v)));
+  const cur=items.find(li=>li.dataset.v===v); cVal.textContent=cur?cur.textContent:"همه";
+  cSel.dispatchEvent(new Event("change",{bubbles:true}));
+}
+cBtn.addEventListener("click",()=>cityOpen(!cWrap.classList.contains("open")));
+cList.addEventListener("click",e=>{ const li=e.target.closest('[role="option"]'); if(!li) return; cityPick(li.dataset.v); cityOpen(false); cBtn.focus(); });
+cWrap.addEventListener("keydown",e=>{
+  const items=[...cList.children], i=items.indexOf(document.activeElement), open=cWrap.classList.contains("open");
+  if(e.key==="Escape"){ if(open){ cityOpen(false); cBtn.focus(); } }
+  else if(e.key==="ArrowDown"||e.key==="ArrowUp"){
+    e.preventDefault();
+    if(!open){ cityOpen(true); return; }
+    items[(i+(e.key==="ArrowDown"?1:-1)+items.length)%items.length].focus({preventScroll:true});
+  }
+  else if((e.key==="Enter"||e.key===" ")&&open&&i>-1){ e.preventDefault(); cityPick(items[i].dataset.v); cityOpen(false); cBtn.focus(); }
+});
+document.addEventListener("click",e=>{ if(!cWrap.contains(e.target)) cityOpen(false); });
 document.querySelectorAll("select,input").forEach(e=>e.addEventListener(e.tagName==="SELECT"||e.type==="checkbox"?"change":"input",render));
 render();
 </script>
