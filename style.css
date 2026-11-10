@@ -308,3 +308,45 @@ footer.site-foot{background:var(--teal);color:#f6f1e7;text-align:right;padding:2
 .ft-brand img{width:40px;height:40px;border-radius:50%;background:#fff;padding:2px}
 .ft-copy{max-width:1100px;margin:18px auto 0;padding-top:12px;border-top:1px solid rgba(246,241,231,.2);text-align:center;font-size:var(--fs-sm);color:#c9d8d6}
 @media(max-width:760px){.ft{grid-template-columns:1fr;gap:16px}}
+
+/* ===== Hero redesign (overrides older hero rules above) ===== */
+.hero{position:relative;overflow:visible;color:#fff;text-align:center;padding:22px 20px 0;min-height:340px;display:flex;flex-direction:column;justify-content:center;background:#1f4f5c url(hero.webp) center/cover no-repeat;border-radius:0 0 40px 40px}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,58,68,.55) 0%,rgba(18,58,68,.78) 100%);border-radius:inherit;z-index:0}
+.hero>*{position:relative;z-index:1}
+.hero-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.hero-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.hero-logo img{width:36px;height:36px}
+.hero-call{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);color:#fff;padding:7px 16px;border-radius:999px;font-size:14px;backdrop-filter:blur(4px)}
+.hero h1{font-size:28px;line-height:1.5;margin-bottom:0;font-weight:700}
+.hero .sand{color:#e8c99a}
+.hero .search{position:relative;z-index:2;max-width:620px;margin:22px auto -56px;padding:16px;border-radius:18px;grid-template-columns:1fr 1fr;gap:12px;box-shadow:0 14px 34px rgba(0,0,0,.22);text-align:right}
+.hero .search>div{min-width:0}
+.hero .search label{margin-bottom:4px}
+.hero .search select,.hero .search input{height:42px;padding:8px 10px;border-radius:10px;border:1px solid #d9e1e5;font-size:15px}
+.stepper{display:flex;align-items:center;gap:6px;direction:ltr}
+.st-btn{flex:0 0 42px;height:42px;padding:0;border-radius:10px;background:#eef4f5;color:#1f4f5c;font-size:20px;line-height:1;border:1px solid #d9e1e5}
+.stepper input{text-align:center;direction:rtl;flex:1;min-width:0}
+.hero .search .search-go{grid-column:1/-1;height:46px;padding:0;font-size:16px;font-weight:700;border-radius:12px;background:#b5532f}
+.hero .search .more{grid-column:1/-1;font-size:13px;color:#2c4a5a}
+.more summary{cursor:pointer;color:#1f4f5c;font-weight:600;padding:2px 0}
+.more>label{margin-top:8px}
+.more input{margin-top:4px}
+.trust{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;padding-top:72px;margin:0 auto;max-width:720px;color:#2c4a5a;font-size:13px;line-height:20px;padding-bottom:6px}
+.trust li{display:flex;align-items:center;gap:6px}
+.badge{position:absolute;top:10px;right:10px;z-index:1;background:#fff;color:#b5532f;font-size:13px;font-weight:700;line-height:18px;padding:4px 10px;border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.badge.b-new{color:#1f4f5c}
+.ci{display:inline-block;margin-inline-end:4px}
+@media(max-width:760px){
+  .hero{padding:12px 14px 0;min-height:342px;background-image:url(hero-mobile.webp);background-position:center 30%}
+  .hero-top{margin-bottom:10px}
+  .hero-logo{font-size:14px}
+  .hero-logo img{width:28px;height:28px}
+  .hero-call{padding:6px 14px;font-size:13px}
+  .hero h1{font-size:24px;line-height:1.55}
+  .hero .search{margin:16px auto -52px;padding:12px;gap:10px;border-radius:16px}
+  .hero .search label{font-size:12px}
+  .hero .search select,.hero .search input{height:40px;font-size:14px}
+  .st-btn{flex-basis:40px;height:40px}
+  .hero .search .search-go{height:44px}
+  .trust{padding-top:68px;font-size:12px;gap:6px 14px}
+}
