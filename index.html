@@ -15,7 +15,7 @@
     <a href="index.html" class="hero-logo"><img src="logo.webp" alt="farahabad.ir" width="300" height="300"></a>
   </div>
   <div class="hero-text">
-    <h1>اجاره ویلا در <span class="sand">فرح‌آباد</span> و اطراف ساری</h1>
+    <h1>اجاره اقامتگاه در <span class="sand">فرح‌آباد</span> و اطراف ساری</h1>
     <p class="hero-sub">ویلا، سوئیت و کلبه</p>
   </div>
   <div class="search">
@@ -64,7 +64,7 @@
 <footer class="site-foot">
   <div class="ft">
     <div>
-      <div class="ft-brand"><img src="logo.webp" alt="" width="40" height="40">farahabad.ir</div>
+      <div class="ft-brand"><img src="logo.webp" alt="" width="80" height="80"><span>farahabad.ir</span></div>
       <p>اجاره ویلا، سوئیت و کلبه در فرح‌آباد و اطراف ساری</p>
     </div>
     <div>
@@ -78,12 +78,7 @@
       <a href="index.html">صفحه اصلی</a>
       <a href="about.html">درباره ما</a>
     </div>
-    <div>
-      <h4>قوانین</h4>
-      <p>ساعت ورود ۱۴ و خروج ۱۲</p>
-      <p>پرداخت آنلاین وجود ندارد.</p>
-      <p>پس از تأیید میزبان، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p>
-    </div>
+    <div class="ft-note-col"><p class="ft-note">پس از تأیید میزبان، هماهنگی پرداخت از طریق تماس انجام می‌شود.</p></div>
   </div>
   <div class="ft-copy">© farahabad.ir - همه حقوق محفوظ است</div>
 </footer>
@@ -127,7 +122,7 @@ function render(){
   let r=VILLAS.filter(v=>(!city||norm(v.city)===norm(city))&&(!type||v.type===type)&&(!curKw||norm(v.title).includes(norm(curKw)))&&(!q||norm(v.title+v.city+v.type+v.desc+v.amenities.join("")).includes(q))&&(!v.capacity||v.capacity>=guests)&&(!pool||v.amenities.includes("استخر")));
   if(sort==="rate")r.sort((a,b)=>b.rating-a.rating);
   const cnt=document.getElementById("count"), active=searched||city||type||curKw||guests||q||pool;
-  cnt.hidden=!active; cnt.textContent=active?fmt(r.length)+" اقامتگاه یافت شد":"";
+  const showCnt=active&&r.length>0; cnt.hidden=!showCnt; cnt.textContent=showCnt?fmt(r.length)+" اقامتگاه یافت شد":"";
   document.getElementById("list").innerHTML=r.map(v=>`
     <a class="card" href="villa.html?id=${v.id}">
       <div class="thumb${v.img?" sk":""}" style="background:${v.color}">${v.img?`<img class="lz" src="${v.img}" alt="${v.title}" loading="lazy" decoding="async" onload="imgDone(this)" onerror="imgDone(this)">`:v.emoji}${v.priceText?`<span class="badge b-price">${v.priceText}</span>`:""}</div>
