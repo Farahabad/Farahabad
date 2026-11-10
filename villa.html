@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" class="vpage">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -244,11 +244,6 @@ function send(){
   function dbl(){ const n=Date.now(); if(n-lastTap<300){ if(sc>1) resetZoom(); else { sc=2.5; tx=0; ty=0; apply(); } lastTap=0; } else lastTap=n; }
   img.addEventListener("dblclick",()=>{ if(sc>1) resetZoom(); else { sc=2.5; apply(); } });
 })();
-</script>
-<script>
-/* نوار پایین: هنگام اسکرول پنهان، بعد از توقف ظاهر می‌شود (رفع پرش در فایرفاکس اندروید) */
-(function(){var y=scrollY,t=0;
-addEventListener("scroll",function(){var b=document.querySelector(".mbar,.bookbar");if(!b)return;var n=scrollY;if(Math.abs(n-y)>3&&n>60)b.classList.add("bar-hide");y=n;clearTimeout(t);t=setTimeout(function(){b.classList.remove("bar-hide")},380)},{passive:true})})();
 </script>
 </body>
 </html>

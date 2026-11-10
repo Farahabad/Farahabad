@@ -410,3 +410,10 @@ html{overflow-x:clip}
 .mbar.bar-hide,.bookbar.show.bar-hide{transform:translateY(calc(100% + 16px))}
 }
 @media(prefers-reduced-motion:reduce){.mbar{transition:none}}
+/* v6: صفحه ویلا — اسکرول داخل body تا نوار ابزار فایرفاکس/کروم جمع نشود و نوار رزرو ثابت بماند */
+@media(max-width:760px){
+html.vpage{height:100%;overflow:hidden}
+html.vpage body{height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch}
+.bookbar,.bookbar.show,.bookbar.show.bar-hide{transform:none;transition:none;will-change:auto;contain:none}
+.bookbar[hidden]{display:none}
+}
