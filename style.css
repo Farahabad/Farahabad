@@ -435,6 +435,7 @@ html.vpage body{height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavio
 
 .chipbar .chip{display:inline-flex;align-items:center;background:transparent;border:1px solid rgba(31,79,92,.22);color:#1f4f5c;font-size:12px;line-height:18px;padding:4px 10px;gap:4px;box-shadow:none}
 .chipbar .chip .ci{margin-inline-end:0;vertical-align:-2px}
-.chipbar .chip.on{background:transparent;border-color:#1f4f5c;color:#1f4f5c;font-weight:700}
+.chipbar .chip.on{background:#1f4f5c;border-color:#1f4f5c;color:#fff;font-weight:700}
+.chipbar .chip.on .ci{color:#fff}
 .chipbar .chip:active{transform:scale(.96)}
 select.chip{padding-inline:8px 22px}
